@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stars Lottery - Win Big!</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen active">
+            <div class="loading-content">
+                <div class="stars-animation">
+                    <div class="star star-1">⭐</div>
+                    <div class="star star-2">⭐</div>
+                    <div class="star star-3">⭐</div>
+                </div>
+                <h1 class="loading-title">Stars Lottery</h1>
+                <p class="loading-subtitle">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Main Menu Screen -->
+        <div id="menu-screen" class="screen">
+            <div class="container">
+                <!-- Header -->
+                <header class="header">
+                    <div class="logo">
+                        <span class="logo-icon">⭐</span>
+                        <span class="logo-text">Stars Lottery</span>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" id="user-name">Loading...</span>
+                        <div class="user-stats">
+                            <span class="stat">
+                                <span class="stat-label">Games:</span>
+                                <span class="stat-value" id="total-games">0</span>
+                            </span>
+                            <span class="stat">
+                                <span class="stat-label">Wins:</span>
+                                <span class="stat-value" id="total-wins">0</span>
+                            </span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <div class="hero">
+                        <h1 class="hero-title">
+                            Win <span class="highlight">80%</span> of the Pool!
+                        </h1>
+                        <p class="hero-subtitle">
+                            6 players enter, 1 winner takes home the prize
+                        </p>
+                    </div>
+
+                    <!-- Entry Fee Selection -->
+                    <div class="entry-fees">
+                        <h2 class="section-title">Choose Your Entry Fee</h2>
+                        <div class="fee-grid">
+                            <button class="fee-card" data-fee="50">
+                                <div class="fee-icon">⭐</div>
+                                <div class="fee-amount">50</div>
+                                <div class="fee-label">Stars</div>
+                                <div class="fee-potential">Win up to 240⭐</div>
+                            </button>
+                            <button class="fee-card" data-fee="100">
+                                <div class="fee-icon">⭐⭐</div>
+                                <div class="fee-amount">100</div>
+                                <div class="fee-label">Stars</div>
+                                <div class="fee-potential">Win up to 480⭐</div>
+                            </button>
+                            <button class="fee-card featured" data-fee="250">
+                                <div class="featured-badge">Popular</div>
+                                <div class="fee-icon">⭐⭐⭐</div>
+                                <div class="fee-amount">250</div>
+                                <div class="fee-label">Stars</div>
+                                <div class="fee-potential">Win up to 1,200⭐</div>
+                            </button>
+                            <button class="fee-card" data-fee="500">
+                                <div class="fee-icon">⭐⭐⭐⭐</div>
+                                <div class="fee-amount">500</div>
+                                <div class="fee-label">Stars</div>
+                                <div class="fee-potential">Win up to 2,400⭐</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- How It Works -->
+                    <div class="how-it-works">
+                        <h2 class="section-title">How It Works</h2>
+                        <div class="steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Choose Entry Fee</h3>
+                                    <p>Select your preferred entry amount</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Wait for Players</h3>
+                                    <p>Room fills up with 6 participants</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Watch the Draw</h3>
+                                    <p>Exciting animation reveals the winner</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h3>Winner Takes 80%</h3>
+                                    <p>Lucky player receives the prize instantly</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Referral Section -->
+                    <div class="referral-section">
+                        <button class="btn btn-secondary" id="open-referral-btn">
+                            <span class="btn-icon">🎁</span>
+                            Invite Friends & Earn Bonuses
+                        </button>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Waiting Room Screen -->
+        <div id="waiting-screen" class="screen">
+            <div class="container">
+                <div class="waiting-content">
+                    <button class="back-button" id="back-to-menu">
+                        <span>←</span> Back
+                    </button>
+
+                    <div class="room-info">
+                        <h2 class="room-title">Waiting for Players</h2>
+                        <div class="room-id">
+                            Room: <span id="room-id-display">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div class="participants-container">
+                        <div class="participants-header">
+                            <span class="participants-count">
+                                <span id="current-participants">0</span> / 6 Players
+                            </span>
+                            <span class="pool-amount">
+                                Pool: <span id="pool-amount">0</span>⭐
+                            </span>
+                        </div>
+
+                        <div class="participants-grid" id="participants-grid">
+                            <!-- Participant slots will be added dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="waiting-animation">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring delay-1"></div>
+                        <div class="pulse-ring delay-2"></div>
+                        <div class="waiting-text">Waiting for more players...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lottery Drawing Screen -->
+        <div id="drawing-screen" class="screen">
+            <div class="container">
+                <div class="drawing-content">
+                    <h2 class="drawing-title">Drawing Winner...</h2>
+                    
+                    <div class="lottery-wheel">
+                        <div class="wheel-container" id="wheel-container">
+                            <!-- Participant cards will be added dynamically -->
+                        </div>
+                        <div class="wheel-pointer">▼</div>
+                    </div>
+
+                    <div class="drawing-info">
+                        <div class="prize-pool">
+                            <span class="prize-label">Prize Pool</span>
+                            <span class="prize-amount" id="prize-pool">0⭐</span>
+                        </div>
+                        <div class="winner-gets">
+                            <span class="winner-label">Winner Gets</span>
+                            <span class="winner-amount" id="winner-amount">0⭐</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Winner Screen -->
+        <div id="winner-screen" class="screen">
+            <div class="container">
+                <div class="winner-content">
+                    <div class="confetti" id="confetti"></div>
+                    
+                    <div class="winner-announcement">
+                        <h2 class="winner-title" id="winner-title">🎉 You Won! 🎉</h2>
+                        <div class="winner-avatar" id="winner-avatar">
+                            <span class="avatar-placeholder">👤</span>
+                        </div>
+                        <div class="winner-name" id="winner-name">Winner Name</div>
+                        <div class="winner-prize">
+                            <span class="prize-label">Prize</span>
+                            <span class="prize-value" id="final-prize">0⭐</span>
+                        </div>
+                    </div>
+
+                    <div class="winner-actions">
+                        <button class="btn btn-primary" id="play-again">
+                            Play Again
+                        </button>
+                        <button class="btn btn-secondary" id="share-result">
+                            Share Result
+                        </button>
+                    </div>
+
+                    <div class="all-participants">
+                        <h3>All Participants</h3>
+                        <div class="participants-list" id="final-participants-list">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referral Screen -->
+        <div id="referral-screen" class="screen">
+            <div class="container">
+                <button class="back-button" id="back-from-referral">
+                    <span>←</span> Back
+                </button>
+
+                <div class="referral-content">
+                    <div class="referral-header">
+                        <div class="referral-icon">🎁</div>
+                        <h2 class="referral-title">Invite Friends</h2>
+                        <p class="referral-subtitle">Earn bonuses when your friends play!</p>
+                    </div>
+
+                    <!-- Referral Stats -->
+                    <div class="referral-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="total-referrals">0</div>
+                                <div class="stat-label">Friends Invited</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="total-ref-bonuses">0</div>
+                                <div class="stat-label">Total Bonuses</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Referral Link -->
+                    <div class="referral-link-section">
+                        <h3>Your Referral Link</h3>
+                        <div class="referral-link-box">
+                            <input type="text" id="referral-link-input" readonly class="referral-link-input">
+                            <button class="btn btn-primary" id="copy-referral-link">
+                                <span id="copy-icon">📋</span>
+                                <span id="copy-text">Copy</span>
+                            </button>
+                        </div>
+                        <button class="btn btn-secondary share-btn" id="share-referral-link">
+                            <span>📤</span> Share Link
+                        </button>
+                    </div>
+
+                    <!-- How It Works -->
+                    <div class="referral-how-it-works">
+                        <h3>How It Works</h3>
+                        <div class="referral-steps">
+                            <div class="referral-step">
+                                <div class="step-number">1</div>
+                                <p>Share your unique referral link with friends</p>
+                            </div>
+                            <div class="referral-step">
+                                <div class="step-number">2</div>
+                                <p>They join using your link and start playing</p>
+                            </div>
+                            <div class="referral-step">
+                                <div class="step-number">3</div>
+                                <p>You earn bonuses for each active referral!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Referrals List -->
+                    <div class="referrals-list-section">
+                        <h3>Your Referrals</h3>
+                        <div id="referrals-list" class="referrals-list">
+                            <div class="empty-state">
+                                <div class="empty-icon">👥</div>
+                                <p>No referrals yet. Start inviting friends!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="error-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-icon">⚠️</div>
+                <h3 class="modal-title">Error</h3>
+                <p class="modal-message" id="error-message">Something went wrong</p>
+                <button class="btn btn-primary" id="error-close">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
