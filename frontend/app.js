@@ -5,7 +5,7 @@ tg.expand();
 // Configuration
 const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5000' 
-    : 'YOUR_BACKEND_URL'; // Replace with actual backend URL
+    : 'https://telegram-stars-lottery.onrender.com/'; // Replace with actual backend URL
 
 // Apply Telegram theme
 const theme = tg.colorScheme || 'dark';
